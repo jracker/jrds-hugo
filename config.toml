@@ -1,4 +1,4 @@
-baseURL = "https://jrds.netlify.app/"
+baseURL = "https://jrds.rbind.io/"
 theme = "hugo-apero"
 languageCode = "en"
 title = "jrds"
