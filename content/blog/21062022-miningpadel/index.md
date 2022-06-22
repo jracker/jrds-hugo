@@ -4,35 +4,45 @@ date: "2022-06-21"
 excerpt: Aplicação do algoritmo apriori
 tags:
 - Regras de associação
-- Mineração de dados
 - R
+categories:
+- Mineração de dados
+links:
+- icon: dropbox
+  icon_pack: fab
+  name: dados
+  url: https://www.dropbox.com/sh/2eqreyru6qq076g/AADvfI7XRGKShpxekJUC9gWya?dl=0
 ---
 
 
 
 ## Mineração de dados
 
-Inicialmente são carregadas as bibliotecas que serão usadas.
+Inicialmente são carregadas/instaladas as bibliotecas que serão usadas.
 
 
 ```r
-if(!require(tidyverse)) install.packages("tidyverse")
-if(!require(arulesViz)) install.packages("arulesViz")
-if(!require(skimr)) install.packages("skimr")
-if(!require(readr)) install.packages("readr")
-# Bibliotecas usadas
-library(arules)
-library(tidyverse)
-library(arulesViz)
-library(skimr)
-library(readr)
-library(here)
+pacotes <- c(
+  "arules",
+  "tidyverse",
+  "arulesViz",
+  "skimr",
+  "readr",
+  "here",
+  "readr",
+  "here"
+)
+
+for(pckgs in pacotes){
+  if(!require(pckgs,character.only = TRUE)) install.packages(pckgs)
+  library(pckgs,character.only = TRUE)
+}
 ```
 
 ## Descrição dos dados
 
 
-Os dados disponibilizados descrevem resultados de múltiplas partidas com descrição dos jogadores presentes. O objetivo é extrair informações "relevantes" como os melhores jogadores ou melhores duplas/trios aplicando o algoritmo apriori. 
+Os dados disponibilizados descrevem resultados de múltiplas partidas com informações dos jogadores presentes. O objetivo é extrair informações "relevantes" como os melhores jogadores ou melhores duplas/trios aplicando o algoritmo apriori. 
 
 
 
@@ -42,10 +52,13 @@ Os dados disponibilizados descrevem resultados de múltiplas partidas com descri
 
 
 
+
+
+
 ```r
 # Importa o arquivo csv e trata as linhas em branco como NA
-path <- here("content/blog/21062022-miningpadel/_ASSOC_PadelStars.csv")
-dat <- read.csv(path) %>%
+fpath <- here(paste0(mpath,"_ASSOC_PadelStars.csv"))
+dat <- read.csv(fpath) %>%
   na_if("")
 # View(dat) # Visualizar o formato dos dados
 ```

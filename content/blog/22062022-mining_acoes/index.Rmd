@@ -9,6 +9,11 @@ tags:
 - Clustering
 categories:
 - Mineração de dados
+links:
+- icon: dropbox
+  icon_pack: fab
+  name: dados
+  url: https://www.dropbox.com/sh/akx1mjachn2zow9/AACrA5OzTd2k68cp8TeaEvGga?dl=0
 ---
 
 ```{r setup, include=FALSE}
@@ -19,21 +24,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Análise de ações do mercado brasileiro usando Apriori e clustering
 
-Instalação e carregamento das bibliotecas necessárias.
-
-```{r Instalação, message = FALSE}
-if (!require(tidyverse)) install.packages("tidyverse")
-if (!require(arulesViz)) install.packages("arulesViz")
-if (!require(stringr)) install.packages("stringr")
-if (!require(easypackages)) install.packages("easypackages")
-if (!require(factoextra)) install.packages("factoextra")
-if (!require(lubridate)) install.packages("lubridate")
-if (!require(timetk)) install.packages("timetk")
-if (!require(timetk)) install.packages("tidyquant")
-if (!require(timetk)) install.packages("NbClust")
-if (!require(knitr)) install.packages("knitr")
-if (!require(knitr)) install.packages("here")
-```
+Instalação/carregamento das bibliotecas necessárias.
 
 
 ```{r Carrega bibliotecas,message=FALSE, warning= FALSE,include=TRUE}
@@ -55,22 +46,29 @@ pacotes <- c(
   "tidyquant",
   "clValid"
 )
-easypackages::libraries(pacotes)
+
+for(pckgs in pacotes){
+  if(!require(pckgs,character.only = TRUE)) install.packages(pckgs)
+  library(pckgs,character.only = TRUE)
+}
+```
+
+## Pré-processamento dos dados
+
+```{r relative path, echo=FALSE}
+mpath <- "content/blog/22062022-mining_acoes/data/"
 ```
 
 
 
-## Pré-processamento dos dados
-
 ```{r Importar dados, message=FALSE}
-# Importa o arquivo csv
-closePrice_path <- here("content/blog/22062022-mining_acoes/data/2020closePrice SAX-240_60_10.csv")
+# Local do arquivo csv
+closePrice_path <- here(paste0(mpath,"2020closePrice SAX-240_60_10.csv"))
+
+# Leitura dos dados
 dat <- read.csv(closePrice_path) %>%
   select(-c(X, X45))
 
-
-# Leitura do arquivo com o nome das colunas
-acoes_path <- here("content/blog/22062022-mining_acoes/data/TopAcoes.txt")
 dat.cols <- read.table(
   acoes_path,
   header = FALSE,

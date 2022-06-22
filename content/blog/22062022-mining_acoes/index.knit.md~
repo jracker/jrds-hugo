@@ -1,0 +1,88 @@
+---
+title: "Análise de ações do mercado brasileiro usando Apriori e clustering"
+author: "jrds"
+date: "2022-06-21"
+excerpt: Análise de ações usando algoritmo apriori e clustering
+tags:
+- Regras de associação
+- R
+- Clustering
+categories:
+- Mineração de dados
+links:
+- icon: dropbox
+  icon_pack: fab
+  name: dados
+  url: https://www.dropbox.com/sh/akx1mjachn2zow9/AACrA5OzTd2k68cp8TeaEvGga?dl=0
+---
+
+
+
+
+
+## Análise de ações do mercado brasileiro usando Apriori e clustering
+
+Instalação/carregamento das bibliotecas necessárias.
+
+
+
+```r
+pacotes <- c(
+  "arules",
+  "tidyverse",
+  "arulesViz",
+  "stringr",
+  "factoextra",
+  "lubridate",
+  "timetk",
+  "clValid",
+  "knitr",
+  "tidyquant",
+  "NbClust",
+  "here",
+  "psych",
+  "NbClust",
+  "tidyquant",
+  "clValid"
+)
+
+for(pckgs in pacotes){
+  if(!require(pckgs,character.only = TRUE)) install.packages(pckgs)
+  library(pckgs,character.only = TRUE)
+}
+```
+
+## Pré-processamento dos dados
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
