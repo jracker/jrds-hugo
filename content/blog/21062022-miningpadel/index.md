@@ -61,7 +61,7 @@ fpath <- here(paste0(mpath,"_ASSOC_PadelStars.csv"))
 dat <- read.csv(fpath) %>%
   na_if("")
 
-#View(dat) # Visualizar o formato dos dados
+# View(dat) # Visualizar o formato dos dados
 
 head(dat, n = 10)
 ```
