@@ -42,7 +42,7 @@ for(pckgs in pacotes){
 ## Descrição dos dados
 
 
-Os dados disponibilizados descrevem resultados de múltiplas partidas com informações dos jogadores presentes. O objetivo é extrair informações  como os melhores jogadores ou melhores duplas/trios aplicando o algoritmo apriori. 
+Os dados disponibilizados descrevem resultados de múltiplas partidas com informações dos jogadores presentes. O objetivo é extrair informações  como os melhores/piores jogadores aplicando o algoritmo apriori. 
 
 
 
