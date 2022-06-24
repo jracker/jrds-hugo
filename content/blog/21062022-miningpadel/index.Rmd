@@ -64,7 +64,7 @@ dat <- read.csv(fpath) %>%
   na_if("")
 # View(dat) # Visualizar o formato dos dados
 
-print(dat)
+head(dat, n = 10)
 ```
 
 As colunas dos jogadores foram renomeadas e a coluna que contém nomes de mais de um jogador foram separadas em três variáveis.
