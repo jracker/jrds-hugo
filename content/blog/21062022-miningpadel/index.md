@@ -60,164 +60,24 @@ Os dados são importados e as células sem informação são tratadas como `NA`.
 fpath <- here(paste0(mpath,"_ASSOC_PadelStars.csv"))
 dat <- read.csv(fpath) %>%
   na_if("")
-# View(dat) # Visualizar o formato dos dados
 
-print(dat)
+#View(dat) # Visualizar o formato dos dados
+
+head(dat, n = 10)
 ```
 
 ```
-##     Partida                Jogadore.a.s Resultado  X Jogadore.a.s.1
-## 1         1   Carlos, alejandro, Alonso    Perdeu NA      Alejandro
-## 2         2     Alonso, alejandro, Juan    Perdeu NA         Ariana
-## 3         3     Juan, Carlos, alejandro    GANHOU NA         Carlos
-## 4         4      Juan, alejandro, Paula    GANHOU NA       Fernando
-## 5         5        Paula, Ariana, Lucia    Perdeu NA           Juan
-## 6         6 Fernando, Carlos, alejandro    GANHOU NA          Lucia
-## 7         7        Juan, Paula, Ariana     GANHOU NA          Paula
-## 8         8     Fernando, Carlos, Lucia    Perdeu NA           <NA>
-## 9         9    alejandro, Paula, Carlos    GANHOU NA           <NA>
-## 10       10     Juan, alejandro, Carlos    Perdeu NA           <NA>
-## 11       11     Fernando, Lucia, Ariana    Perdeu NA           <NA>
-## 12       12         Juan, Carlos, Paula    GANHOU NA           <NA>
-## 13       13     Juan , alejandro, Lucia    Perdeu NA           <NA>
-## 14       14            alejandro, Paula    GANHOU NA           <NA>
-## 15       15             Juan, alejandro    GANHOU NA           <NA>
-## 16       16    alejandro, Paula, Alonso    Perdeu NA           <NA>
-## 17       17     Juan, alejandro, Ariana    GANHOU NA           <NA>
-## 18       18         Juan, Carlos, Lúcia    GANHOU NA           <NA>
-## 19       19        Lucia, Paula, Carlos    Perdeu NA           <NA>
-## 20       20             Juan, alejandro    GANHOU NA           <NA>
-## 21       21     Fernando, Carlos, Lúcia    Perdeu NA           <NA>
-## 22       22     Lucia, Paula, alejandro    Perdeu NA           <NA>
-## 23       23     Juan, alejandro, Carlos    Perdeu NA           <NA>
-## 24       24    alejandro, Paula, Alonso    GANHOU NA           <NA>
-## 25       25     Juan, alejandro, Ariana    GANHOU NA           <NA>
-## 26       26         Juan, Carlos, Lúcia    Perdeu NA           <NA>
-## 27       27        Lúcia, Paula, Carlos    Perdeu NA           <NA>
-## 28       28                 Juan, Paula    GANHOU NA           <NA>
-## 29       29             Fernando, Lúcia    Perdeu NA           <NA>
-## 30       30     Lucia, Paula, alejandro    GANHOU NA           <NA>
-## 31       31         Juan, Carlos, Paula    Perdeu NA           <NA>
-## 32       32    Ariana*, Juan, alejandro    GANHOU NA           <NA>
-## 33       33         Paula, Juan, Ariana    GANHOU NA           <NA>
-## 34       34    Ariana, alejandro, Paula    GANHOU NA           <NA>
-## 35       35    Ariana, Paula, alejandro    GANHOU NA           <NA>
-## 36       36        Paula, Ariana, Lucia    GANHOU NA           <NA>
-## 37       37   Ariana, Carlos, alejandro    GANHOU NA           <NA>
-## 38       38    Lucia, alejandro, Carlos    Perdeu NA           <NA>
-## 39       39    Paula, Ariana, alejandro    GANHOU NA           <NA>
-## 40       40         Juan, Paula, Carlos    GANHOU NA           <NA>
-## 41       41    Paula, Ariana, alejandro    GANHOU NA           <NA>
-## 42       42        Lucia, Paula, Carlos    Perdeu NA           <NA>
-## 43       43    Paula, Ariana, alejandro    Perdeu NA           <NA>
-## 44       44       Juan, Fernando, Lucia    Perdeu NA           <NA>
-## 45       45     Juan, ALEJANDRO, Ariana    Perdeu NA           <NA>
-## 46       46     Fernando, Lucia, Ariana    GANHOU NA           <NA>
-## 47       47                 Juan, Paula    GANHOU NA           <NA>
-## 48       48                 Juan, Paula    Perdeu NA           <NA>
-## 49       49      Juan, Fernando, Ariana    Perdeu NA           <NA>
-## 50       50     Fernando, Carlos, Lucia    GANHOU NA           <NA>
-## 51       51    alejandro, Paula, Carlos    Perdeu NA           <NA>
-## 52       52     Juan, alejandro, Carlos    GANHOU NA           <NA>
-## 53       53     Fernando, Lucia, Ariana    Perdeu NA           <NA>
-## 54       54      Juan, Carlos, Ariana      GANHOU NA           <NA>
-## 55       55      Juan, alejandro, Lucia    GANHOU NA           <NA>
-## 56       56            Fernando, Carlos    Perdeu NA           <NA>
-## 57       57     Lucia, Paula, alejandro    GANHOU NA           <NA>
-## 58       58        Juan, Carlos, Ariana    GANHOU NA           <NA>
-## 59       59              Juan, Fernando    Perdeu NA           <NA>
-## 60       60            Fernando, Carlos    Perdeu NA           <NA>
-## 61       61           alejandro*, Paula    GANHOU NA           <NA>
-## 62       62             Juan, alejandro    Perdeu NA           <NA>
-## 63       63            Fernando, Carlos    GANHOU NA           <NA>
-## 64       64                Ariana, Juan    GANHOU NA           <NA>
-## 65       65                 Lucia, Juan    Perdeu NA           <NA>
-## 66       66           Ariana, alejandro    Perdeu NA           <NA>
-## 67       67       Ariana, Paula, Alonso    Perdeu NA           <NA>
-## 68       68               Paula, Ariana    Perdeu NA           <NA>
-## 69       69              Ariana, Carlos    Perdeu NA           <NA>
-## 70       70     Ariana, Juan, alejandro    GANHOU NA           <NA>
-## 71       71         Lucia, Juan, Ariana    GANHOU NA           <NA>
-## 72       72    Ariana, alejandro, Paula    GANHOU NA           <NA>
-## 73       73    Ariana, Paula, alejandro    Perdeu NA           <NA>
-## 74       74      Paula, Ariana  , Lúcia    Perdeu NA           <NA>
-## 75       75   Ariana, Carlos, alejandro    GANHOU NA           <NA>
-## 76       76    Lucia, alejandro, Carlos    GANHOU NA           <NA>
-## 77       77    Paula, Ariana, alejandro    GANHOU NA           <NA>
-## 78       78         Juan, Paula, Carlos    Perdeu NA           <NA>
-## 79       79    Paula, Ariana, alejandro    Perdeu NA           <NA>
-## 80       80           Juan, alejandro      GANHOU NA           <NA>
-## 81       81            Fernando, Carlos    GANHOU NA           <NA>
-## 82       82                Ariana, Juan    GANHOU NA           <NA>
-## 83       83                 Lucia, Juan    GANHOU NA           <NA>
-## 84       84           Ariana, alejandro    GANHOU NA           <NA>
-## 85       85               Ariana, Paula    GANHOU NA           <NA>
-## 86       86               Paula, Ariana    GANHOU NA           <NA>
-## 87       87              Ariana, Carlos    GANHOU NA           <NA>
-## 88       88             Juan, alejandro    GANHOU NA           <NA>
-## 89       89              Paula, Ariana*    GANHOU NA           <NA>
-## 90       90            Fernando, Carlos    Perdeu NA           <NA>
-## 91       91        Ariana, Juan, Alonso    Perdeu NA           <NA>
-## 92       92                Lucia, Juan     Perdeu NA           <NA>
-## 93       93           Ariana, alejandro    Perdeu NA           <NA>
-## 94       94               Ariana, Paula    Perdeu NA           <NA>
-## 95       95               Paula, Ariana    Perdeu NA           <NA>
-## 96       96              Ariana, Carlos    GANHOU NA           <NA>
-## 97       97            Lucia, alejandro    GANHOU NA           <NA>
-## 98       98               Paula, Ariana    GANHOU NA           <NA>
-## 99       99                 Juan, Paula    Perdeu NA           <NA>
-## 100     100               Paula, Ariana    GANHOU NA           <NA>
-## 101     101                Lucia, Paula    GANHOU NA           <NA>
-## 102     102               Paula, Ariana    Perdeu NA           <NA>
-## 103     103              Juan, Fernando    Perdeu NA           <NA>
-## 104     104            Juan, alejandro     GANHOU NA           <NA>
-## 105     105             Fernando, Lucia    GANHOU NA           <NA>
-## 106     106               Juan, Carlos     Perdeu NA           <NA>
-## 107     107             Juan, alejandro    GANHOU NA           <NA>
-## 108     108            alejandro, Paula    GANHOU NA           <NA>
-## 109     109             Juan, alejandro    GANHOU NA           <NA>
-## 110     110               Paula, Ariana    Perdeu NA           <NA>
-## 111     111            Fernando, Carlos    GANHOU NA           <NA>
-## 112     112        Ariana, Juan, Alonso    GANHOU NA           <NA>
-## 113     113                 Lucia, Juan    GANHOU NA           <NA>
-## 114     114           Ariana, alejandro    Perdeu NA           <NA>
-## 115     115               Ariana, Paula    Perdeu NA           <NA>
-## 116     116    Paula, Ariana, alejandro    GANHOU NA           <NA>
-## 117     117       Ariana, Carlos, Lucia    Perdeu NA           <NA>
-## 118     118   Lucia, alejandro., Carlos    GANHOU NA           <NA>
-## 119     119     Paula, Ariana, Fernando    Perdeu NA           <NA>
-## 120     120       Juam, Paula, Fernando    Perdeu NA           <NA>
-## 121     121     Paula, Ariana, Fernando    GANHOU NA           <NA>
-## 122     122     Lucia, Paula, alejandro    GANHOU NA           <NA>
-## 123     123     Paula, Ariana, Fernando    GANHOU NA           <NA>
-## 124     124       Juam, Fernando,Ariana    GANHOU NA           <NA>
-## 125     125             Juan, alejandro    Perdeu NA           <NA>
-## 126     126             Fernando, Lucia    Perdeu NA           <NA>
-## 127     127                Juam, Carlos    GANHOU NA           <NA>
-## 128     128           Juam, alejandro      Perdeu NA           <NA>
-## 129     129            alejandro, Paula    Perdeu NA           <NA>
-## 130     130             Juan, alejandro    GANHOU NA           <NA>
-## 131     131              Paula, Ariana.    GANHOU NA           <NA>
-## 132     132   Fernando, Carlos, Alonso.    Perdeu NA           <NA>
-## 133     133               Ariana, Juan.    Perdeu NA           <NA>
-## 134     134                Lucia, Juan.    GANHOU NA           <NA>
-## 135     135         Ariana, alejandro      Perdeu NA           <NA>
-## 136     136              Ariana, Paula.    Perdeu NA           <NA>
-## 137     137              Paula, Ariana.    GANHOU NA           <NA>
-## 138     138             Ariana, Carlos.    GANHOU NA           <NA>
-## 139     139           Lucia, alejandro.    GANHOU NA           <NA>
-## 140     140     Paula, Ariana, Fernando    GANHOU NA           <NA>
-## 141     141     Lucia, Paula, alejandro    GANHOU NA           <NA>
-## 142     142     Paula, Ariana, Fernando    Perdeu NA           <NA>
-## 143     143      Juan, Fernando,Ariana.    Perdeu NA           <NA>
-## 144     144   Juam, alejandro., Alonso.    GANHOU NA           <NA>
-## 145     145             Fernando, Lucia    Perdeu NA           <NA>
-## 146     146             Juan, alejandro    GANHOU NA           <NA>
-## 147     147             Fernando, Lucia    Perdeu NA           <NA>
-## 148     148        Juan, Carlos, Alonso    GANHOU NA           <NA>
-## 149     149    Juan, alejandro, Alonso.    Perdeu NA           <NA>
-## 150     150           alejandro, Paula.    GANHOU NA           <NA>
-## 151     151               Juan, Ariana.    Perdeu NA           <NA>
+##    Partida                Jogadore.a.s Resultado  X Jogadore.a.s.1
+## 1        1   Carlos, alejandro, Alonso    Perdeu NA      Alejandro
+## 2        2     Alonso, alejandro, Juan    Perdeu NA         Ariana
+## 3        3     Juan, Carlos, alejandro    GANHOU NA         Carlos
+## 4        4      Juan, alejandro, Paula    GANHOU NA       Fernando
+## 5        5        Paula, Ariana, Lucia    Perdeu NA           Juan
+## 6        6 Fernando, Carlos, alejandro    GANHOU NA          Lucia
+## 7        7        Juan, Paula, Ariana     GANHOU NA          Paula
+## 8        8     Fernando, Carlos, Lucia    Perdeu NA           <NA>
+## 9        9    alejandro, Paula, Carlos    GANHOU NA           <NA>
+## 10      10     Juan, alejandro, Carlos    Perdeu NA           <NA>
 ```
 
 As colunas dos jogadores foram renomeadas e a coluna que contém nomes de mais de um jogador foram separadas em três variáveis.
