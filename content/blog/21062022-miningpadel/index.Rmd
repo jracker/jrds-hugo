@@ -42,18 +42,19 @@ for(pckgs in pacotes){
 ## Descrição dos dados
 
 
-Os dados disponibilizados descrevem resultados de múltiplas partidas com informações dos jogadores presentes. O objetivo é extrair informações "relevantes" como os melhores jogadores ou melhores duplas/trios aplicando o algoritmo apriori. 
+Os dados disponibilizados descrevem resultados de múltiplas partidas com informações dos jogadores presentes. O objetivo é extrair informações  como os melhores jogadores ou melhores duplas/trios aplicando o algoritmo apriori. 
 
 
 
 ## Pré-processamento dos dados
 
- A próxima etapa é importar os dados. Uma vez que os dados já foram baixados e estão localizados no diretório de trabalho, não foi necessário especificar o caminho. Nota-se no pedaço de código abaixo que as células sem informação foram tratadas como `NA`.
+Os dados são importados e as células sem informação são tratadas como `NA`.
 
 
 ```{r relative path, echo=FALSE}
 mpath <- "content/blog/21062022-miningpadel/"
 ```
+
 
 
 ```{r Importar dados,message=FALSE}
@@ -62,9 +63,11 @@ fpath <- here(paste0(mpath,"_ASSOC_PadelStars.csv"))
 dat <- read.csv(fpath) %>%
   na_if("")
 # View(dat) # Visualizar o formato dos dados
+
+print(dat)
 ```
 
-As colunas dos jogadores foram renomeadas para facilitar a análise. A  coluna que contém os jogadores foi em seguida separada em três variáveis.
+As colunas dos jogadores foram renomeadas e a coluna que contém nomes de mais de um jogador foram separadas em três variáveis.
 
 ```{r pré-processamento inicial ,message=FALSE, warning=FALSE}
 # Renomeia colunas para facilitar o pré-processamento
@@ -79,17 +82,27 @@ dat_v2 <- dat_v1 %>%
 ```
 
 
-Na coluna `Jogador_4` há nomes de jogadores repetidos em relação as células das demais colunas e foram transformados para `NA`, já que são redundantes na análise.
+
+
+Há nomes de jogadores repetidos (Alejandro, Carlos e Paula) em algumas das sete primeiras linhas. 
+
+
+```{r echo = FALSE}
+head(dat_v2, n = 7)
+```
+
+
+Assim, considerando que não há mais de um jogador com o mesmo nome as células com nomes repetidos foram transformadas em `NA`.
+
 
 ```{r Correção dos nomes repetidos, message=FALSE}
-# Adiciona NA nos nomes duplicados (considerando que 
-#não há mais de um jogador com mesmo nome)
+# Adiciona NA nos nomes duplicados
 dat_v2$Jogador_4[1] <- NA # Alejandro
 dat_v2$Jogador_4[3] <- NA # Carlos
 dat_v2$Jogador_4[7] <- NA # Paula
 ```
 
-Os nomes com caracteres diferentes do esperado são corrigidos e as células sem informação  substituídas por `NA`.
+Os nomes com caracteres diferentes do esperado são corrigidos e as células sem informação substituídas por `NA`.
 
 ```{r Correção de nomes ,message=FALSE}
 # Corrige nomes com caracteres diferentes do esperado
@@ -105,7 +118,7 @@ dat_v3 <- dat_v2 %>%
       "GANHOU" = "Ganhou",
       "Alejandro\\*" = "Alejandro"
     ))) %>%
-      mutate_all(na_if, "") # subs esp.  em branco por NA
+      mutate_all(na_if, "") # subs esp. em branco por NA
   ) %>%
   select(-c("Partida", "X"))
 ```
@@ -142,8 +155,8 @@ get_fdata <- function(data, nome) {
 }
 ```
 
-A seguir as funções para o tratamento dos dados são usadas e são aplicadas as  
-mudanças finais da coluna resultado como a transformação de "Ganhou" para 1 e "Perdeu" para 0, além da transformação das variáveis para a classe fator. 
+As funções para o tratamento dos dados são usadas e são aplicadas as  
+mudanças finais da coluna resultado como a transformação de "Ganhou" para 1 e "Perdeu" para 0, além da transformação das variáveis para a classe fator, necessário para aplicação do algoritmo de mineração usado.
 
 ```{r Tratamento final dos dados, message=FALSE}
 # Nome dos jogadores
@@ -178,8 +191,8 @@ dat_v6 <- dat_v5 %>%
 
 A mineração dos itens e das regras foi feita através do algoritmo Apriori que trabalha através da busca de itens frequentes dado um suporte e confiança mínima. O Apriori permite reduzir o número de itens que serão analisados para gerar as regras de associação.
 
-.
-Os critérios usados foram o suporte de $10\%$ e confiança mínima de $60\%$. Inicialmente, há o interesse de descobrir quais as três melhores combinações. Isto foi feito definindo o lado `rhs = "Resultado=1",` (vitórias) em um dos parâmetros da função `apriori`.
+
+Os critérios usados foram o suporte de $10\%$ e confiança mínima de $60\%$. Inicialmente, há o interesse de descobrir combinações de jogadores resultaram em vitória. Isto foi feito definindo o lado `rhs = "Resultado=1",` (vitórias) em um dos parâmetros da função `apriori`.
 
 ```{r Combinações vencedoras,results ="hide"}
 regras <- apriori(dat_v6,
@@ -203,7 +216,7 @@ regras <- apriori(dat_v6,
 #   arrange(desc(support,confidence)) %>% View()
 ```
 
-Os resultados são filtrados para os jogadores do lado esquerdo que estavam presentes na partida (LHS = 1). Para melhorar a visualização as regras são transformadas em um quadro de dados ordenados pelos maiores valores de suporte e confiança.
+Os resultados são filtrados para os jogadores que estavam presentes na partida (LHS = 1). Para melhorar a visualização as regras são transformadas em um quadro de dados ordenados pelos maiores valores de lift.
 
 ```{r 3 melhores combinações}
 # Regras com lhs = 1 e Resultado=1
@@ -214,10 +227,10 @@ r1lhs1_df <- as(reg1_lhs1,"data.frame") %>%
 (r1lhs1_df)
 ```
 
- De acordo com as três combinações vencedoras Alejandro obteve a vitória em $66\%$ das partidas que participou, tendo participado em cerca de $28\%$ do total de partidas. A melhor dupla é formada por Alejandro e Paula, que obtiveram a vitória em $72\%$ das partidas que participaram e estiveram presentes em cerca de $12\%$ do total de partidas.
+O jogador Alejandro obteve a vitória em $66\%$ das partidas que participou, tendo participado em cerca de $28\%$ do total de partidas. A melhor dupla é formada por  Paula e Alejandro, que obtiveram a vitória em $72\%$ das partidas que participaram e estiveram presentes em cerca de $12\%$ do total de partidas.
 
 
-O jogador com os piores resultados é encontrado filtrando as regras para `rhs = "Resultado=0"` na função `apriori` e selecionando os jogadores que estiveram presentes nestas derrotas (LHS = 1).  Fora o `rhs`, os outros parâmetros não foram alterados.
+Os jogadore com os piores resultados é encontrado filtrando as regras para `rhs = "Resultado=0"` na função `apriori` e selecionando os jogadores que estiveram presentes nestas derrotas (LHS = 1).  Fora o `rhs`, os outros parâmetros não foram alterados.
 
 ```{r Combinações perdedoras, results="hide"}
 regras_perd <- apriori(dat_v6,
@@ -239,15 +252,14 @@ reg0_df <- as(regras_perd,"data.frame")
 #   arrange(desc(support,confidence)) %>% View()
 ```
 
- Inicialmente os resultados são filtrados para as associações com no máximo um jogador, isto foi feito a partir do controle de caracteres de cada string. Por fim, é verificado que os resultados que apresentam os jogadores presentes (LHS=1) estão nas últimas sete linhas.
+ Os resultados são filtrados para as associações com no máximo um jogador, isto foi feito a partir do controle de caracteres de cada string. Por fim, é verificado que os resultados que apresentam os jogadores presentes (LHS=1) estão nas últimas sete linhas.
 
 ```{r Jogadores que mais perderam}
 reg0_df %>% 
    # Filtra LHS com no máximo um jogador
   filter(str_length(rules) < 32) %>%
-  arrange(desc(confidence)) %>% 
+  arrange(desc(support),desc(confidence)) %>% 
   filter(row_number() >= (n() - 6)) 
 ```
 
-Conforme mostrado na tabela o jogador Carlos apresentou o pior resultado, sendo que obteve derrota em $44\%$ das partidas que participou e esteve presente em aproximadamente $20\%$ do total de partidas.
 
